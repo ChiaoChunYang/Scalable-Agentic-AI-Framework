@@ -1,65 +1,80 @@
-# Scalable Agentic AI Framework
+# Scalable Agentic AI Framework (Agentic OS)
 
-An enterprise-grade, production-ready framework for building and scaling Agentic AI workflows. This repository implements modern LLM orchestration patterns with a focus on Go-To-Market (GTM) strategies and multi-step reasoning agents.
+A production-grade, scalable framework for building and orchestrating enterprise-level GTM (Go-To-Market) Agents. This repository transforms the framework into a comprehensive "Agentic OS" with robust memory management, RAG capabilities, and observability.
 
-## 🚀 Architecture Overview
+## 🏗️ Technical Architecture
 
-The framework is built on three core pillars:
-1. **Agentic Workflows**: Utilizing multi-step reasoning (Chain-of-Thought) and tool-use to solve complex business problems.
-2. **LLM Orchestration**: A robust layer for managing Anthropic (Claude) and AWS Bedrock calls, featuring prompt versioning and evaluation metrics.
-3. **Enterprise Governance**: Built-in monitoring with `loguru`, configuration management with `Pydantic`, and multi-stage containerization.
-
-### Core Components
-- `src/agents/`: Specialized AI agents with domain-specific reasoning logic.
-- `src/core/`: The "Brain" of the framework, handling model routing, fallback logic, and prompt lifecycle.
-- `infrastructure/`: Infrastructure-as-code and container orchestration configurations.
-
-## 🛠 Setup Instructions
-
-### Prerequisites
-- Python 3.10+
-- Docker
-- AWS Credentials (for Bedrock) or Anthropic API Key
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-org/Scalable-Agentic-AI-Framework.git
-   cd Scalable-Agentic-AI-Framework
-   ```
-
-2. Create a virtual environment and install dependencies:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-
-3. Configure environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
-   ```
-
-### Running the Service
-```bash
-docker build -t agent-service -f infrastructure/Dockerfile .
-docker run -p 8000:8000 agent-service
+```mermaid
+graph TD
+    User([User]) <--> UI[Streamlit UI]
+    UI <--> Orchestrator[LLM Orchestrator]
+    Orchestrator <--> Memory[Memory Manager]
+    Orchestrator <--> RAG[RAG Engine]
+    
+    subgraph Memory Manager
+        STM[Short-term: Thread-based]
+        LTM[Long-term: Vector-based]
+    end
+    
+    subgraph RAG Engine
+        Hybrid[Hybrid Search: Vector + BM25]
+        Rerank[Reranking Logic]
+    end
+    
+    Orchestrator --> Obs[Observability Manager]
+    Obs --> Traces[OpenTelemetry Traces]
+    
+    Orchestrator --> Eval[Evaluation Suite]
+    Eval --> Metrics[Faithfulness, Relevancy]
 ```
 
-## 🧠 LLM Orchestration (Anthropic & Bedrock)
+## 🚀 Key Features
 
-This framework abstracts the underlying LLM provider, allowing seamless switching between Anthropic direct APIs and Amazon Bedrock.
+### 1. Advanced Memory Management (Memory OS)
+- **Short-term Memory:** Thread-safe, chronological conversation tracking for contextual continuity.
+- **Long-term Memory:** Persistent storage of historical interactions and user preferences using vector stores (ChromaDB/Pinecone).
+- **Strategy Pattern:** Easily swap memory backends based on enterprise requirements.
 
-- **Claude 3.5 Sonnet**: Used for high-reasoning tasks and complex tool use.
-- **Claude 3 Haiku**: Leveraged for low-latency, high-throughput utility tasks.
+### 2. Production-Grade RAG Engine
+- **Hybrid Search:** Combines semantic vector search with keyword-based BM25 search for maximum retrieval precision.
+- **Reranking:** Integrated reranking logic to ensure the most relevant context is prioritized for the LLM.
+- **Scalable Architecture:** Designed to handle massive document corpora with optimized retrieval.
 
-## 📊 Evaluation & Metrics
+### 3. Comprehensive Evaluation Suite
+- **Metrics:** Built-in support for Faithfulness and Answer Relevancy (inspired by Ragas).
+- **Batch Evaluation:** Tools for systematic testing of agent performance across large datasets.
+- **Quality Assurance:** Ensures agent responses remain grounded and accurate over time.
 
-The `LLMOrchestrator` includes built-in metrics collection for:
-- Token usage and cost estimation.
-- Response latency.
-- Pass/Fail evaluation based on defined Pydantic schemas.
+### 4. Enterprise Observability
+- **LLM Tracing:** Deep visibility into LLM calls, latency, and costs using OpenTelemetry.
+- **Monitoring:** Integrated logging with `loguru` and span-based tracing for debugging complex agentic workflows.
+- **Status Tracking:** Granular success/failure monitoring for all critical agent operations.
+
+### 5. Professional Streamlit Interface
+- **Chat Experience:** Modern, responsive UI for interacting with GTM Agents.
+- **Configurable Parameters:** Real-time adjustment of RAG weights and memory settings.
+- **Session Management:** Robust handling of multiple conversation threads.
+
+## 🛠️ Getting Started
+
+### Installation
+```bash
+pip install -r requirements.txt
+```
+
+### Running the UI
+```bash
+streamlit run app/streamlit_ui.py
+```
+
+## 🛡️ Design Principles
+- **Design Patterns:** Extensive use of Factory, Strategy, and Singleton patterns for modularity and scalability.
+- **Type Safety:** 100% Type Hints and Pydantic models for robust data validation.
+- **Error Handling:** Comprehensive try-except blocks with detailed logging.
+- **Documentation:** Detailed docstrings following Google/NumPy style.
+
+## 📊 Observability
+This framework uses OpenTelemetry for distributed tracing. Traces are exported to the console by default and can be easily configured to export to Jaeger, Honeycomb, or AWS X-Ray.
 
 ---
-*Maintained by the AI Platform Team.*
+© 2026 Agentic OS Team. Built for the Enterprise.
