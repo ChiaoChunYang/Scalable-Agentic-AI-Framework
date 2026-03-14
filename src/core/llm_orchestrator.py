@@ -1,6 +1,7 @@
 from typing import Dict, Any, Optional, List
 from pydantic import BaseModel, Field
 from loguru import logger
+from infrastructure.observability import trace_llm_call
 import time
 import uuid
 
@@ -31,6 +32,7 @@ class LLMOrchestrator:
         self.config = config
         logger.info(f"Initialized LLMOrchestrator with provider={config.model_provider}, model={config.model_name}")
 
+    @trace_llm_call
     async def execute(self, prompt: str, system_message: Optional[str] = None) -> Dict[str, Any]:
         """
         Executes a call to the configured LLM provider.
